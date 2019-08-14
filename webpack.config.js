@@ -40,28 +40,7 @@ const config = {
         ]
       },
     ]
-  },
-  plugins: [
-    // make sure to include the plugin for the magic
-    new CleanWebpackPlugin(),
-    new VueLoaderPlugin(),
-    new HTMLPlugin(),
-    new MiniCssExtractPlugin({
-      // Options similar to the same options in webpackOptions.output
-      // all options are optional
-      filename: '[name].css',
-      chunkFilename: '[id].css',
-      ignoreOrder: false, // Enable to remove warnings about conflicting order
-    }),
-  ],
-  optimization: {
-    splitChunks: {
-      chunks (chunk) {
-        // exclude `my-excluded-chunk`
-        return chunk.name !== 'my-excluded-chunk';
-      }
-    }
-  },
+  }
 }
 
 if (isDev) {//开发环境
@@ -78,6 +57,11 @@ if (isDev) {//开发环境
       'stylus-loader'
     ]
   })
+  config.plugins = [
+    new CleanWebpackPlugin(),
+    new VueLoaderPlugin(),
+    new HTMLPlugin(),
+  ]
   config.devServer = {
     port: '8000',
     overlay: {
@@ -116,7 +100,18 @@ if (isDev) {//开发环境
       ]
     }
   )
-  config.plugins.push(
+  config.optimization = {
+    splitChunks: {
+      chunks (chunk) {
+        // exclude `my-excluded-chunk`
+        return chunk.name !== 'my-excluded-chunk';
+      }
+    }
+  }
+  config.plugins = [
+    new CleanWebpackPlugin(),
+    new VueLoaderPlugin(),
+    new HTMLPlugin(),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // all options are optional
@@ -124,7 +119,9 @@ if (isDev) {//开发环境
       chunkFilename: '[id].css',
       ignoreOrder: false, // Enable to remove warnings about conflicting order
     })
-  )
+  ]
+
+
 }
 
 module.exports = config
